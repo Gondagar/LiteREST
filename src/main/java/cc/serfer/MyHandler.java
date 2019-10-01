@@ -29,14 +29,11 @@ public class MyHandler implements HttpHandler {
     public String getDataFromDB() {
         List<GrantMatrix> result = new ArrayList<>();
 
-        String SQL_SELECT = 'SELECT m.id  , ob.id, ob.name, ob.name_ukr, ob.standard_object, ob.is_admin, op.id, op.name, op.standard_operation   FROM grant_matrix as m\n" +
-            "join grant_object ob on m.grant_object_id = ob.id\n" +
-            "join grant_operation op on m.grant_operation_id = op.id\n'
-            "order by  m.idEE";
+        String query = "SELECT m.id  , ob.id, ob.name, ob.name_ukr,ob.standard_object, ob.is_admin, op.id, op.name, op.standard_operation   FROM grant_matrix as m join grant_object ob on m.grant_object_id = ob.id join grant_operation op on m.grant_operation_id = op.id order by  m.id";
 
         try (Connection conn = DriverManager.getConnection(
             "jdbc:postgresql://127.0.0.1:5432/auth", "postgres", "password");
-             PreparedStatement preparedStatement = conn.prepareStatement(SQL_SELECT)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(query)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
